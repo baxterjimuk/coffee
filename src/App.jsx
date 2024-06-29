@@ -142,7 +142,7 @@ function App() {
             type='number'
             min={0}
             max={23}
-            onChange={handleChangeOneTix}
+            onChange={(e) => setOneTixDuration({...oneTixDuration, hours: Number(e.target.value)})}
           />
           Hour{oneTixDuration.hours > 1 ? 's ' : ' '}
         </label>
@@ -153,7 +153,7 @@ function App() {
             type='number'
             min={0}
             max={59}
-            onChange={handleChangeOneTix}
+            onChange={(e) => setOneTixDuration({...oneTixDuration, minutes: Number(e.target.value)})}
           />
           Minute{oneTixDuration.minutes > 1 ? 's ' : ' '}
         </label>
@@ -164,7 +164,7 @@ function App() {
             type='number'
             min={0}
             max={59}
-            onChange={handleChangeOneTix}
+            onChange={(e) => setOneTixDuration({...oneTixDuration, seconds: Number(e.target.value)})}
           />
           Second{oneTixDuration.seconds > 1 ? 's ' : ' '}
         </label>
@@ -176,7 +176,7 @@ function App() {
             type='number'
             min={0}
             max={23}
-            onChange={handleChangeTimeLeft}
+            onChange={(e) => setCurrentTimeLeft({...currentTimeLeft, hours: Number(e.target.value)})}
           />
           Hour{currentTimeLeft.hours > 1 ? 's ' : ' '}
         </label>
@@ -187,7 +187,7 @@ function App() {
             type='number'
             min={0}
             max={59}
-            onChange={handleChangeTimeLeft}
+            onChange={(e) => setCurrentTimeLeft({...currentTimeLeft, minutes: Number(e.target.value)})}
           />
           Minute{currentTimeLeft.minutes > 1 ? 's ' : ' '}
         </label>
@@ -198,7 +198,7 @@ function App() {
             type='number'
             min={0}
             max={59}
-            onChange={handleChangeTimeLeft}
+            onChange={(e) => setCurrentTimeLeft({...currentTimeLeft, seconds: Number(e.target.value)})}
           />
           Second{currentTimeLeft.seconds > 1 ? 's ' : ' '}
         </label>
