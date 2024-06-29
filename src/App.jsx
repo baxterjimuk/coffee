@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { add } from 'date-fns'
-import { format } from 'date-fns/format';
+import { format } from 'date-fns/format'
+import * as duration from 'duration-fns'
 
 function App() {
   const [day, setDay] = useState(0)
@@ -14,8 +15,9 @@ function App() {
 
   const [currentColoTix, setCurrentColoTix] = useState(0)
   const [maxColoTix, setMaxColoTix] = useState(5)
-  const [oneTixDuration, setOneTixDuration] = useState({ hours: 2, minutes: 30 })
-  const [currentTimeLeft, setCurrentTimeLeft] = useState({ hours: 0, minutes: 0 })
+  const [oneTixDuration, setOneTixDuration] = useState({ hours: 2, minutes: 30, seconds: 0 })
+  const [currentTimeLeft, setCurrentTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 })
+  const [coloTixFullTime, setColoTixFullTime] = useState()
 
   const [now, setNow] = useState(new Date())
   setInterval(() => setNow(new Date()))
@@ -24,6 +26,19 @@ function App() {
   const onRefresh2 = () => setStaminaFullTime(
     add(new Date(), { minutes: ((maxStamina - currentStamina) * oneStaminaDuration) })
   )
+  const handleChangeOneTix = (e) => {
+    setOneTixDuration({ ...oneTixDuration, [e.target.name]: Number(e.target.value) })
+  }
+  const handleChangeTimeLeft = (e) => {
+    setCurrentTimeLeft({ ...currentTimeLeft, [e.target.name]: Number(e.target.value) })
+  }
+  const onRefresh3 = () => {
+    const tixDiff = maxColoTix - currentColoTix
+    const totalSeconds = tixDiff * duration.toSeconds(oneTixDuration)
+    const secondsPassed = duration.toSeconds(currentTimeLeft)
+    const secondsNeeded = totalSeconds - secondsPassed
+    setColoTixFullTime(add(new Date(), { seconds: secondsNeeded }))
+  }
 
   return (
     <>
@@ -97,27 +112,99 @@ function App() {
         {staminaFullTime && <h3>Your stamina is ESTIMATED to be {maxStamina} at {format(staminaFullTime, 'PPPPpp')}</h3>}
       </p>
       <p>
-        <h2>Colosseum Ticket Full Calculator</h2>
+        <h2>COLOSSEUM TICKET FULL CALCULATOR</h2>
         <label>
-          Max Colo Ticket that I want to reach: 
+          Max Colo Ticket that I want to reach:
           <input
             value={maxColoTix}
             type='number'
             min={1}
-            max={5}
             onChange={(e) => setMaxColoTix(Number(e.target.value))}
           />
         </label>
         <br />
         <label>
-          My Current Colo Ticket: 
+          My Current Colo Ticket:
           <input
             value={currentColoTix}
             type='number'
             min={0}
+            max={maxColoTix}
             onChange={(e) => setCurrentColoTix(Number(e.target.value))}
           />
         </label>
+        <br />
+        <h5> Time taken to recharge 1 colo ticket:</h5>
+        <label>
+          <input
+            name='oneTixHours'
+            value={oneTixDuration.hours}
+            type='number'
+            min={0}
+            max={23}
+            onChange={handleChangeOneTix}
+          />
+          Hour{oneTixDuration.hours > 1 ? 's ' : ' '}
+        </label>
+        <label>
+          <input
+            name='oneTixMinutes'
+            value={oneTixDuration.minutes}
+            type='number'
+            min={0}
+            max={59}
+            onChange={handleChangeOneTix}
+          />
+          Minute{oneTixDuration.minutes > 1 ? 's ' : ' '}
+        </label>
+        <label>
+          <input
+            name='oneTixSeconds'
+            value={oneTixDuration.seconds}
+            type='number'
+            min={0}
+            max={59}
+            onChange={handleChangeOneTix}
+          />
+          Second{oneTixDuration.seconds > 1 ? 's ' : ' '}
+        </label>
+        <h5>Time already passed shown in the colosseum tickets menu:</h5>
+        <label>
+          <input
+            name='timeLeftHours'
+            value={currentTimeLeft.hours}
+            type='number'
+            min={0}
+            max={23}
+            onChange={handleChangeTimeLeft}
+          />
+          Hour{currentTimeLeft.hours > 1 ? 's ' : ' '}
+        </label>
+        <label>
+          <input
+            name='timeLeftMinutes'
+            value={currentTimeLeft.minutes}
+            type='number'
+            min={0}
+            max={59}
+            onChange={handleChangeTimeLeft}
+          />
+          Minute{currentTimeLeft.minutes > 1 ? 's ' : ' '}
+        </label>
+        <label>
+          <input
+            name='timeLeftSeconds'
+            value={currentTimeLeft.seconds}
+            type='number'
+            min={0}
+            max={59}
+            onChange={handleChangeTimeLeft}
+          />
+          Second{currentTimeLeft.seconds > 1 ? 's ' : ' '}
+        </label>
+        <br />
+        <button onClick={onRefresh3}>Calculate</button>
+        {coloTixFullTime && <h3>Your colosseum tickets is ESTIMATED to be {maxColoTix} at {format(coloTixFullTime, 'PPPPpp')}</h3>}
       </p>
     </>
   )
