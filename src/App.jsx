@@ -118,7 +118,7 @@ function App() {
           </label>
           <br />
           <label>
-            My Current Stamina:
+            My Current Stamina :
             <input
               value={currentStamina}
               type='number'
