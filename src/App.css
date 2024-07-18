@@ -5,6 +5,15 @@
   text-align: left;
 }
 
+.flex-container {
+  display: flex;
+}
+
+.flex-container > div {
+  margin: 10px;
+  padding: 20px;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
