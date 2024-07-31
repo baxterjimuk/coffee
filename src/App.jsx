@@ -21,7 +21,7 @@ function App() {
   const [coloTixFullTime, setColoTixFullTime] = useState()
 
   const [now, setNow] = useState(new Date())
-  setInterval(() => setNow(new Date()))
+  setInterval(() => setNow(new Date()), 1000)
 
   const onRefresh = () => setEta(add(new Date(), { days: day, hours: hour, minutes: minute }))
   const onRefresh2 = () => setStaminaFullTime(
