@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://baxterjimuk.github.io/coffee",
+  "homepage": "https://samuelbaxter.my",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
